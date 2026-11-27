@@ -1,0 +1,52 @@
+services:
+  cache-init:
+    image: python:3.12.16-slim
+    user: "0:0"
+    command: ["python", "-c", "import os; os.chown('/cache', int(os.environ['LOCAL_UID']), int(os.environ['LOCAL_GID'])); os.chmod('/cache', 0o700)"]
+    environment:
+      LOCAL_UID: ${ANALYTICS_AI_LOCAL_UID:-1000}
+      LOCAL_GID: ${ANALYTICS_AI_LOCAL_GID:-1000}
+    volumes:
+      - dataset-cache:/cache
+    read_only: true
+    network_mode: none
+    security_opt:
+      - no-new-privileges:true
+  analysis-api:
+    environment:
+      ANALYTICS_AI_CACHE_BACKEND: filesystem
+      ANALYTICS_AI_CACHE_DIRECTORY: /var/lib/analytics-ai/cache
+    volumes:
+      - dataset-cache:/var/lib/analytics-ai/cache
+    depends_on:
+      cache-init:
+        condition: service_completed_successfully
+  report-worker:
+    build:
+      context: ./services/analysis-api
+    command: ["python", "-m", "analytics_ai.agent.worker", "--loop"]
+    env_file:
+      - path: .env
+        required: true
+    user: ${ANALYTICS_AI_LOCAL_UID:-1000}:${ANALYTICS_AI_LOCAL_GID:-1000}
+    environment:
+      ANALYTICS_AI_REPOSITORY_BACKEND: firestore
+      ANALYTICS_AI_CACHE_BACKEND: filesystem
+      ANALYTICS_AI_CACHE_DIRECTORY: /var/lib/analytics-ai/cache
+      GOOGLE_APPLICATION_CREDENTIALS: /var/run/secrets/google-adc/application_default_credentials.json
+      GOOGLE_CLOUD_PROJECT: ${ANALYTICS_AI_FIREBASE_PROJECT_ID:?Set the dev Firebase project in .env}
+    volumes:
+      - ${GOOGLE_APPLICATION_CREDENTIALS_HOST_PATH:?Set the developer ADC path in .env}:/var/run/secrets/google-adc/application_default_credentials.json:ro
+      - dataset-cache:/var/lib/analytics-ai/cache
+    depends_on:
+      cache-init:
+        condition: service_completed_successfully
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+volumes:
+  dataset-cache:

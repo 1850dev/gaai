@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://analytics-ai.example/schemas/visualization-spec.schema.json",
+  "title": "VisualizationSpec",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "type",
+    "title",
+    "subtitle",
+    "dataset_ids",
+    "evidence_ids",
+    "x",
+    "category",
+    "dimensions",
+    "series"
+  ],
+  "properties": {
+    "type": { "enum": ["kpi", "line", "bar", "donut", "table"] },
+    "title": { "type": "string", "minLength": 1 },
+    "subtitle": { "type": ["string", "null"], "default": null },
+    "dataset_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "evidence_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "x": { "type": ["string", "null"] },
+    "category": { "type": ["string", "null"] },
+    "dimensions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "series": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["field", "label", "unit"],
+        "properties": {
+          "field": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 1 },
+          "unit": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

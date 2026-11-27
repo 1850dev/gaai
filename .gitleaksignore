@@ -1,0 +1,7 @@
+# Reviewed on 2026-09-30: synthetic idempotency operation IDs, not credentials.
+# Exact historical fingerprints only; no blanket exclusion for tests or API keys.
+34be32980dacecf3abf48351342d139eb0df5082:services/analysis-api/tests/test_orchestrator.py:generic-api-key:583
+34be32980dacecf3abf48351342d139eb0df5082:services/analysis-api/tests/test_orchestrator.py:generic-api-key:594
+34be32980dacecf3abf48351342d139eb0df5082:services/analysis-api/tests/test_orchestrator.py:generic-api-key:735
+34be32980dacecf3abf48351342d139eb0df5082:services/analysis-api/tests/test_orchestrator.py:generic-api-key:740
+34be32980dacecf3abf48351342d139eb0df5082:services/analysis-api/tests/test_orchestrator.py:generic-api-key:745

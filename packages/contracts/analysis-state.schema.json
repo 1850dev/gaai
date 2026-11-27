@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://analytics-ai.example/schemas/analysis-state.schema.json",
+  "title": "AnalysisState",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "data_source_set_id",
+    "period",
+    "comparison_period",
+    "focus",
+    "metrics",
+    "dimensions",
+    "filters",
+    "time_grain",
+    "selected_skill",
+    "skill_version",
+    "dataset_ids",
+    "findings",
+    "semantic_version",
+    "router_history"
+  ],
+  "properties": {
+    "data_source_set_id": { "type": "string", "minLength": 1 },
+    "period": {
+      "anyOf": [{ "$ref": "#/$defs/period" }, { "type": "null" }]
+    },
+    "comparison_period": {
+      "anyOf": [{ "$ref": "#/$defs/period" }, { "type": "null" }]
+    },
+    "focus": { "$ref": "#/$defs/focus" },
+    "metrics": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "dimensions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "filters": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/filter" }
+    },
+    "time_grain": { "type": ["string", "null"] },
+    "selected_skill": { "type": ["string", "null"] },
+    "skill_version": { "type": ["string", "null"] },
+    "dataset_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "findings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/finding" }
+    },
+    "semantic_version": { "type": "string", "minLength": 1 },
+    "router_history": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "$defs": {
+    "period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end"],
+      "properties": {
+        "start": { "type": "string", "format": "date" },
+        "end": { "type": "string", "format": "date" }
+      }
+    },
+    "focus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric", "dimension", "channel", "device"],
+      "properties": {
+        "metric": { "type": ["string", "null"] },
+        "dimension": { "type": ["string", "null"] },
+        "channel": { "type": ["string", "null"] },
+        "device": { "type": ["string", "null"] }
+      }
+    },
+    "filter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["semantic_name", "kind", "field_name", "value", "operator"],
+      "properties": {
+        "semantic_name": { "type": "string", "minLength": 1 },
+        "kind": { "type": "string", "minLength": 1 },
+        "field_name": { "type": "string", "minLength": 1 },
+        "value": { "type": "string", "minLength": 1 },
+        "operator": { "const": "exact" }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "text", "evidence_ids", "confidence", "assumptions"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "text": { "type": "string", "minLength": 1 },
+        "evidence_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "assumptions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+services:
+  analysis-api:
+    build:
+      context: ./services/analysis-api
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      ANALYTICS_AI_CORS_ORIGINS: '${ANALYTICS_AI_CORS_ORIGINS:-["http://localhost:5174"]}'
+      ANALYTICS_AI_GA4_OAUTH_RETURN_URL: ${ANALYTICS_AI_GA4_OAUTH_RETURN_URL:-http://localhost:5174}
+    ports:
+      - "8080:8080"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+
+  web:
+    build:
+      context: ./apps/web
+      args:
+        PUBLIC_API_BASE_URL: ${PUBLIC_API_BASE_URL:-http://localhost:8080}
+        PUBLIC_FIREBASE_API_KEY: ${PUBLIC_FIREBASE_API_KEY:-}
+        PUBLIC_FIREBASE_AUTH_DOMAIN: ${PUBLIC_FIREBASE_AUTH_DOMAIN:-}
+        PUBLIC_FIREBASE_PROJECT_ID: ${PUBLIC_FIREBASE_PROJECT_ID:-analytics-ai-dev}
+        PUBLIC_FIREBASE_APP_ID: ${PUBLIC_FIREBASE_APP_ID:-}
+    environment:
+      PUBLIC_API_BASE_URL: ${PUBLIC_API_BASE_URL:-http://localhost:8080}
+      PUBLIC_FIREBASE_API_KEY: ${PUBLIC_FIREBASE_API_KEY:-}
+      PUBLIC_FIREBASE_AUTH_DOMAIN: ${PUBLIC_FIREBASE_AUTH_DOMAIN:-}
+      PUBLIC_FIREBASE_PROJECT_ID: ${PUBLIC_FIREBASE_PROJECT_ID:-analytics-ai-dev}
+      PUBLIC_FIREBASE_APP_ID: ${PUBLIC_FIREBASE_APP_ID:-}
+    ports:
+      - "5174:3000"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true

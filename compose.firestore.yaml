@@ -1,0 +1,10 @@
+services:
+  analysis-api:
+    user: ${ANALYTICS_AI_LOCAL_UID:-1000}:${ANALYTICS_AI_LOCAL_GID:-1000}
+    environment:
+      ANALYTICS_AI_REPOSITORY_BACKEND: firestore
+      GOOGLE_APPLICATION_CREDENTIALS: /var/run/secrets/google-adc/application_default_credentials.json
+      GOOGLE_CLOUD_PROJECT: ${ANALYTICS_AI_FIREBASE_PROJECT_ID:?Set the dev Firebase project in .env}
+    volumes:
+      - ${GOOGLE_APPLICATION_CREDENTIALS_HOST_PATH:?Set the developer ADC path in .env}:/var/run/secrets/google-adc/application_default_credentials.json:ro
+      - ./.bootstrap:/bootstrap:ro

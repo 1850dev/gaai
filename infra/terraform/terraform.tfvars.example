@@ -1,0 +1,38 @@
+platform_project_id = "analytics-ai-dev"
+environment         = "dev"
+region              = "asia-northeast1"
+firestore_location  = "asia-northeast1"
+cache_bucket_name   = "analytics-ai-dev-dataset-cache-CHANGE-ME"
+
+# Use immutable digests in deployed environments.
+backend_image = ""
+web_image     = ""
+
+web_origin          = "http://localhost:5173"
+public_api_base_url = "http://localhost:8080"
+
+firebase_web_config = {
+  api_key     = "PUBLIC_FIREBASE_WEB_API_KEY"
+  auth_domain = "analytics-ai-dev.firebaseapp.com"
+  app_id      = "PUBLIC_FIREBASE_APP_ID"
+}
+
+enable_analytics_tools = false
+enable_browser_qwen = false
+enable_browser_agent = false
+vertex_user_ids = []
+enable_admin_connection_checks = false
+enable_ga4_user_oauth = false
+
+# USER_OAUTH uses a Google OAuth 2.0 Web application client. Never put the
+# client secret in tfvars; add it directly to the output Secret Manager secret.
+ga4_oauth_client_id    = ""
+ga4_oauth_redirect_uri = "http://localhost:8080/api/integrations/ga4/callback"
+ga4_oauth_return_url   = "http://localhost:5173"
+
+data_access_profiles = {
+  example_web = {
+    account_id   = "example-analytics"
+    display_name = "Example web analytics data access"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "site": "example-firebase-project",
+    "public": "firebase/hosting",
+    "ignore": ["**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "run": {
+          "serviceId": "analytics-ai-web-dev",
+          "region": "asia-northeast1",
+          "pinTag": true
+        }
+      }
+    ]
+  }
+}

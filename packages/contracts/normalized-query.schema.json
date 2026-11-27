@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://analytics-ai.example/schemas/normalized-query.schema.json",
+  "title": "NormalizedQuery",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["data_source_set", "source", "date_range", "dimensions", "metrics", "filters"],
+  "properties": {
+    "data_source_set": { "type": "string", "minLength": 1 },
+    "source": { "enum": ["ga4", "bigquery"] },
+    "date_range": { "type": "array", "items": { "type": "string" } },
+    "dimensions": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "metrics": { "type": "array", "items": { "type": "string" }, "minItems": 1, "uniqueItems": true },
+    "filters": { "type": "object", "additionalProperties": true }
+  }
+}
