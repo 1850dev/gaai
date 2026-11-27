@@ -15,7 +15,7 @@ ANALYTICS_AI_VERTEX_USER_IDS=[]
 
 Qwenは端末内で単一指標のKPI・推移・ランキング・期間比較の計画を作ります。GA4取得・権限検証・集計・グラフと根拠の保存は従来どおりサーバー側です。結果表示後にAIの解説が必要かチャットで確認されます。「はい」「OK」で、取得済み結果の短い解説を端末内で作ります。解説の履歴保存やGA4の再取得は行いません。同じ画面にいる間は読み込み済みモデルを再利用し、生成が止まった場合も自動で再読み込み・再試行しません。モデル配布元に質問・GA4結果を送る機能はありません。確認済みの質問・計画は分析実行時に本サービスのAPIに送られます。
 
-複数指標・集計軸や段階分析については、既存のGA4エージェントをQwenでも利用する経路を検証中です。従来版とは別のフラグで管理し、結果をGeminiへ自動転送しません。[実機確認用の質問と合格条件](docs/evaluation/qwen-ga4-acceptance.md)
+複数指標・集計軸や段階分析については、既存のGA4エージェントをQwenでも利用する経路を検証中です。従来版とは別のフラグで管理し、結果をGeminiへ自動転送しません。
 
 共有エージェントでは、GA4の指標・軸の互換性エラーや取得行数の超過に対し、失敗理由を端末内モデルへ渡して修正を1回だけ検討します。期間、比較期間、粒度、フィルタ、明示された指標・軸が変わらず、別の条件であることをサーバーで検証します。再取得は変更内容を提示し、承認を受けた場合に限ります。認可・OAuth・タイムアウトによる失敗は、このループで再送しません。
 
@@ -27,14 +27,11 @@ Qwenは端末内で単一指標のKPI・推移・ランキング・期間比較�
 
 単なるGA4チャットボットではなく、Semantic Layer、Analysis State、Data Source Set単位の認可、Dataset Cache、Evidence、可視化を統合したConversational Analytics Platformを目指しています。
 
-> [!IMPORTANT]
-> 開発Pilotとソースコードの一般公開は別です。運営環境のURL・設定・分析データはサンプル設定に含めません。[リポジトリ公開前の確認](docs/repository-publication.md)を参照してください。
-
-GA4接続モーダルのProperty一覧は接続確認用です。分析はヘッダーの登録済みData Source Setを選んで「新しい分析」から開始します。Google側で閲覧できても、未登録・未GrantのPropertyはそのまま分析対象にできません。[現在のS1 → R1 → A1 → REL計画](docs/release-readiness-plan.md)
+GA4接続モーダルのProperty一覧は接続確認用です。分析はヘッダーの登録済みData Source Setを選んで「新しい分析」から開始します。Google側で閲覧できても、未登録・未GrantのPropertyはそのまま分析対象にできません。
 
 ## 現在実装されているもの
 
-- 会話の作業記憶、認可済みの過去分析検索、ユーザー確認式の長期合意管理（[使い方](docs/agent-harness.md)）
+- 会話の作業記憶、認可済みの過去分析検索、ユーザー確認式の長期合意管理
 - 上位対象を確定→対象別の内訳→評価を一度の依頼で自動実行する段階分析（単一期間・1指標・2軸、最大10対象。進捗保存・安全上限あり）
 - 会話をまたぐ調査エージェント（確認質問→複数分析→結果観察→追加調査→レポート／改善仮説）
 - 分析回答のMarkdown保存、見出し・表のプレビュー、原文表示・コピー・.md保存（通常回答の保存はレポート作成とは別機能）
@@ -64,20 +61,12 @@ GA4接続モーダルのProperty一覧は接続確認用です。分析はヘッ
 - 数値の書き換えを許さないEvidence-bound Vertex回答整形と決定論的fallback
 - deny-by-defaultのFirestore Security Rules
 - Docker、Docker Compose、Terraform、GitHub Actions
-- Unit、Integration、E2E TestとArchitecture／Securityドキュメント
-
-## 未完了・実環境未検証のもの
-
-- 実ブラウザでの通信切断・実行中再起動、実アカウント2名のGA4 OAuth分離・失効、バックアップ復元
-- 実GA4はWeb限定の複数ターン・数値突合まで検証済み。全Skillと改善提案の総合品質は未検証
-- Firebase Hosting配備後の実Googleログイン／GA4受入、ステージングでの昇格・ロールバック
+- Unit、Integration、E2E Test
 
 ## 今後の機能追加予定
 
 - **BigQuery（Pending）**：実環境への接続、Service Accountごとの権限受入、Query Guard・コスト上限・MCPの実検証。GA4 Pilotでは使用できません。既存の接続・検証コードは保持し、`ANALYTICS_AI_ENABLE_BIGQUERY_TOOLS=false` を維持します。
 - CVR計算・要因分解の拡張、Custom Metadataの承認とSemantic Version管理、運用管理画面の拡張
-
-詳細は[GA4-first TODO](docs/todo.md)、[Web限定データの実受入](docs/evaluation/q2b-completion-2026-09-25.md)、[Pilot配備手順](docs/deployment.md)、[企業オンボーディング](docs/onboarding-company.md)を参照してください。
 
 ## ローカルでの定期実行
 
@@ -142,7 +131,6 @@ services/analysis-api/       FastAPI、認可、分析、MCP Gateway
 packages/contracts/          Frontend／Backend共通JSON Schema
 infra/terraform/             Google Cloud Infrastructure as Code
 firebase/                    Firestore Security RulesとIndex
-docs/                        Architecture、Security、運用ドキュメント
 tests/                       Acceptance Test用領域
 ```
 
@@ -209,7 +197,7 @@ docker compose up --build -d
 
 Firebase Web App設定は公開識別子です。Service Account KeyとAccess Tokenは保存しないでください。ローカルGA4 OAuth検証に限りOAuth Web Client SecretをGit-ignoredの`.env`へ設定できますが、dev／stg／prodではSecret Managerを使用します。
 
-Backend検証済みFirebase UIDの診断、dev Firestore用Compose override、監査付きcreate-only bootstrapを実装済みです。初期登録は[ローカル開発](docs/local-development.md)の「dev Firestoreへ安全に接続する」と「最初のUser／CompanyをBootstrapする」を順に実施してください。Data Access ProfileとData Source Setは、実リソースの接続検証が完了するまで無効状態を維持します。
+Backend検証済みFirebase UIDの診断、dev Firestore用Compose override、監査付きcreate-only bootstrapを実装済みです。Data Access ProfileとData Source Setは、実リソースの接続検証が完了するまで無効状態を維持します。
 
 ## Dockerを使わない開発
 
@@ -277,26 +265,3 @@ npm --prefix apps/web run test:e2e
 terraform -chdir=infra/terraform fmt -check -recursive
 terraform -chdir=infra/terraform validate
 ```
-
-## 関連ドキュメント
-
-- [最新のDual-MCP製品要件 v1.2](docs/GA4_BigQuery_Dual_MCP_Analytics_AI_Requirements_v1.2.md)
-- [ローカル分析品質評価（2026-09-16）](docs/evaluation/local-analysis-quality-2026-09-16.md)
-
-- [最新の機能要件・システム構成書 v1.2](docs/GA4_BigQuery_Analytics_AI_Functional_Requirements_Architecture_v1.2.md)
-- [GA4-first TODO](docs/todo.md)
-- [管理者によるSet登録・承認移行](docs/admin-registration.md)
-- [S1c／R1／A1の検証・リリース判定（2026-09-30）](docs/evaluation/s1c-r1-a1-release-2026-09-30.md)
-- [GA4分析Skill設計調査](docs/ga4-analysis-skills.md)
-- [実装計画](docs/implementation-plan.md)
-- [Architecture](docs/architecture.md)
-- [Security](docs/security.md)
-- [Data Access](docs/data-access.md)
-- [GA4 MCP](docs/ga4-mcp.md)
-- [BigQuery MCP](docs/bigquery-mcp.md)
-- [Semantic Layer](docs/semantic-layer.md)
-- [Analysis State](docs/analysis-state.md)
-- [Analysis Streaming API](docs/api-streaming.md)
-- [企業オンボーディング](docs/onboarding-company.md)
-- [ローカル開発](docs/local-development.md)
-- [デプロイ](docs/deployment.md)
