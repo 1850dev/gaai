@@ -1,0 +1,91 @@
+{
+  "memory_quotes": [
+    {
+      "text": "取得済みの結果を使って、このサイトで優先する改善案を考えてください。レポートは不要です。",
+      "kind": "objective"
+    }
+  ],
+  "grouped_request": null,
+  "action": "finish",
+  "objective": "取得済みデータに基づく改善案の提示",
+  "explanation": "取得済みのページ別および参照元別の閲覧状況に基づき、主要な動線およびコンテンツ改善の仮説を整理しました。",
+  "questions": [],
+  "plan": null,
+  "observed_filters": [],
+  "proposals": [
+    {
+      "title": "イベントページから案内ページへの動線強化",
+      "hypothesis": "イベント情報の閲覧数が多い一方で、案内情報への導線が不足している場合、動線を明示することで回遊および検討が促進される可能性があります。",
+      "changes": "イベント詳細ページの上部および下部に案内ページへの明確なリンクボタンを設置する。",
+      "surfaces": [
+        "detail",
+        "content"
+      ],
+      "content_action": "rewrite",
+      "suggested_title": "イベント連動の施設案内ナビゲーション改善案",
+      "suggested_description": "",
+      "keywords": [
+        "イベント",
+        "施設案内",
+        "アクセス"
+      ],
+      "validation_plan": "リンク設置前後で対象リンクのクリック計測を行い、案内ページへの遷移状況を比較検証する。",
+      "success_metric": "screenPageViews",
+      "evaluation": {
+        "goal_alignment": "イベントに関心を持った訪問者を案内ページの利用へ繋げるための支援。",
+        "metric_reason": "関連ページへの回遊状況を把握するための代替指標として有用であるため。",
+        "metric_limitations": "ページ閲覧数の増加だけでは実際の行動や満足度を直接証明することはできません。",
+        "measurement_status": "proxy",
+        "prerequisites": [
+          "各ページ内の内部リンククリックイベントの計測設定が完了していること",
+          "既存のナビゲーション配置状況の目視確認"
+        ]
+      },
+      "evidence_ids": [
+        "evidence_1e60e55059af4249b828c3874672c1dc"
+      ],
+      "priority": "high"
+    },
+    {
+      "title": "特定アプリ流入向けトップページの導線最適化",
+      "hypothesis": "mobile_app_referralからの流入がトップページに集中しているため、アプリ利用者の関心に応じたショートカットを提供することで閲覧体験が向上する可能性があります。",
+      "changes": "トップページファーストビュー付近にアプリ利用者向けのおすすめ情報への導線バナーを配置する。",
+      "surfaces": [
+        "home"
+      ],
+      "content_action": "rewrite",
+      "suggested_title": "アプリ流入ユーザー向けトップページ導線設計の検証案",
+      "suggested_description": "",
+      "keywords": [
+        "アプリ連携",
+        "最新情報",
+        "おすすめ"
+      ],
+      "validation_plan": "バナー設置後に特定参照元からのトップページ滞在時間やバナークリック率の推移を確認する。",
+      "success_metric": "screenPageViews",
+      "evaluation": {
+        "goal_alignment": "アプリ経由の利用者が求める情報へ迷わず到達できるようにする。",
+        "metric_reason": "該当流入におけるサイト内での関心度合いや行動深度を測る目安となるため。",
+        "metric_limitations": "特定参照元の流入であってもユーザー個別の会員ステータスやアプリ内行動と直接連携して測定できるわけではありません。",
+        "measurement_status": "needs_confirmation",
+        "prerequisites": [
+          "トップページ内バナークリックイベントの定義と計測確認",
+          "アプリ側でのパラメータ付与ルールの確認"
+        ]
+      },
+      "evidence_ids": [
+        "evidence_1e60e55059af4249b828c3874672c1dc"
+      ],
+      "priority": "medium"
+    }
+  ],
+  "open_questions": [
+    "イベントページや案内ページにおける最終的な成果（問い合わせ、参加登録等）の計測定義が存在するか確認が必要です。"
+  ],
+  "workflow_id": "advisory.site_improvement.v1",
+  "remaining_tasks": [],
+  "assumptions": [
+    "取得済みの集計結果は上位の一部組み合わせであり、サイト全体の完全な順位や全訪問を網羅するものではありません。",
+    "参照元名は流入のきっかけを示すものであり、ユーザーの属性や会員状態を直接証明するものではありません。"
+  ]
+}

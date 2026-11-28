@@ -153,16 +153,8 @@ async def test_canonical_metric_does_not_bypass_evidence_guard():
 
 
 def test_recorded_q3c3_failure_is_rejected_locally_with_actionable_field_path():
-    path = (
-        Path(__file__).resolve().parents[3]
-        / "docs/evaluation/q3c-3-site-purpose-2026-09-26.results.json"
-    )
-    records = json.loads(path.read_text())["records"]
-    rejected = next(
-        r["output"]
-        for r in records
-        if r.get("proposal_guard") == "proposal_evidence_or_metric_invalid"
-    )
+    path = Path(__file__).resolve().parent / "fixtures/q3c3_rejected_decision.json"
+    rejected = json.loads(path.read_text())
     with pytest.raises(ValidationError) as error:
         AdvisoryDecision.model_validate(
             rejected, context={"proposal_metric_terms": ("page_views",)}
