@@ -10,9 +10,7 @@ from analytics_ai.agent.models import SiteContext
 from analytics_ai.agent.service import AgentService
 from tests.test_agent import finish, proposal
 
-PROFILE = (
-    Path(__file__).resolve().parent / "fixtures/synthetic_site_profile.json"
-)
+PROFILE = Path(__file__).resolve().parent / "fixtures/synthetic_site_profile.json"
 
 
 def test_draft_is_valid_and_labels_unconfirmed_constraints():
