@@ -1,0 +1,66 @@
+{
+  "actor_user_id": "REPLACE_WITH_BACKEND_VERIFIED_FIREBASE_UID",
+  "company_id": "development_company",
+  "users": [],
+  "companies": [],
+  "company_members": [],
+  "data_access_profiles": [],
+  "data_source_sets": [
+    {
+      "id": "development_web",
+      "company_id": "development_company",
+      "name": "Development Web",
+      "ga4": {
+        "property_id": "123456789",
+        "display_name": "Development Web",
+        "auth_mode": "USER_OAUTH",
+        "timezone": "Asia/Tokyo",
+        "currency_code": "JPY",
+        "stream_scopes": [
+          {
+            "stream_id": "1234567890",
+            "platform": "web"
+          }
+        ]
+      },
+      "semantic_version": "development-web-v1",
+      "enabled": false
+    }
+  ],
+  "user_access_grants": [
+    {
+      "id": "grant_developer_development_web",
+      "user_id": "REPLACE_WITH_BACKEND_VERIFIED_FIREBASE_UID",
+      "data_source_set_id": "development_web",
+      "role": "platform_admin",
+      "enabled": true
+    }
+  ],
+  "semantic_definitions": [
+    {
+      "id": "development_web_active_users",
+      "canonical_name": "active_users",
+      "aliases": ["UU", "ユーザー", "アクティブユーザー"],
+      "kind": "metric",
+      "scope": "data_source_set",
+      "company_id": "development_company",
+      "data_source_set_id": "development_web",
+      "ga4_mapping": {"metric": "activeUsers"},
+      "version": "development-web-v1",
+      "enabled": true
+    },
+    {
+      "id": "development_web_conversion_unavailable",
+      "canonical_name": "conversion",
+      "aliases": ["CV", "コンバージョン", "成果"],
+      "kind": "metric",
+      "scope": "data_source_set",
+      "company_id": "development_company",
+      "data_source_set_id": "development_web",
+      "version": "development-web-v1",
+      "enabled": true,
+      "available": false
+    }
+  ],
+  "reason": "Add a disabled USER_OAUTH GA4 source for connection verification"
+}

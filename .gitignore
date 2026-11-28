@@ -1,24 +1,44 @@
+# OS & Editor temporary files
 .DS_Store
+Thumbs.db
+
+# Local AI workspace & private docs (keep /docs/ tracked for public specs)
+.local/
+docs/private/
+tests/fixtures/private/
+*.local.json
+
+# Environment variables & Credentials
 .env
 .env.*
 !.env.example
-.bootstrap/
-.firebase/
-firebase-debug.log*
-*-debug.log*
 *.pem
 *.key
 application_default_credentials.json
 client_secret*.json
+
+# Firebase
+.bootstrap/
+.firebase/
+firebase-debug.log*
+*-debug.log*
 /firebase.hosting.dev.json
-/docs/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+
+# Node.js / SvelteKit / Vite
 node_modules/
 .svelte-kit/
 build/
 dist/
-coverage/
-playwright-report/
-test-results/
+vite.config.ts.timestamp-*
+
+# Python
 .venv/
 __pycache__/
 *.py[cod]
@@ -26,8 +46,8 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 *.egg-info/
-.terraform/
-*.tfstate
-*.tfstate.*
-*.tfvars
-!*.tfvars.example
+
+# Test & Coverage reports
+coverage/
+playwright-report/
+test-results/

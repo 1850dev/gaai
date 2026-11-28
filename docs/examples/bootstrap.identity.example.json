@@ -1,0 +1,32 @@
+{
+  "actor_user_id": "REPLACE_WITH_BACKEND_VERIFIED_FIREBASE_UID",
+  "company_id": "development_company",
+  "users": [
+    {
+      "uid": "REPLACE_WITH_BACKEND_VERIFIED_FIREBASE_UID",
+      "email": "replace-with-your-google-login-email@example.com",
+      "display_name": "Development User",
+      "status": "active"
+    }
+  ],
+  "companies": [
+    {
+      "id": "development_company",
+      "name": "Development Company",
+      "status": "active"
+    }
+  ],
+  "company_members": [
+    {
+      "user_id": "REPLACE_WITH_BACKEND_VERIFIED_FIREBASE_UID",
+      "company_id": "development_company",
+      "role": "platform_admin",
+      "status": "active"
+    }
+  ],
+  "data_access_profiles": [],
+  "data_source_sets": [],
+  "user_access_grants": [],
+  "semantic_definitions": [],
+  "reason": "Register the first authenticated developer in the isolated dev project"
+}
